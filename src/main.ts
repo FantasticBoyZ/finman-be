@@ -4,7 +4,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import * as cors from 'cors';
+import fastifyCors from 'fastify-cors';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -12,11 +12,11 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
-  app.use(cors({
+  app.register(fastifyCors, {
     origin: true,
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
-  }));
+  });
 
   // Global error handling for unhandled promise rejections
   process.on('unhandledRejection', (reason, promise) => {
