@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { createUser } from 'src/db/queries';
+import { createUser } from '../db/queries';
 
 @Controller('user')
 export class UserController {

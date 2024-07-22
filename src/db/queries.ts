@@ -1,15 +1,12 @@
+import { asc, eq, or, sql } from 'drizzle-orm';
 import { db } from './';
-import { asc, between, count, eq, getTableColumns, or, sql } from 'drizzle-orm';
 import {
-  InsertUser,
-  InsertCategory,
   InsertTransaction,
+  InsertUser,
   SelectUser,
-  SelectCategory,
-  SelectTransaction,
   categoryTable,
   transactionTable,
-  userTable,
+  userTable
 } from './schema';
 
 export async function createUser(data: InsertUser) {

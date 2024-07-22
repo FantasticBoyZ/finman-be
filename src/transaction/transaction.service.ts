@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Transaction } from './interface/transaction.interface';
-import { addTransaction, getTransactionData } from 'src/db/queries';
+import { addTransaction, getTransactionData } from '../db/queries';
 
 @Injectable()
 export class TransactionsService {
