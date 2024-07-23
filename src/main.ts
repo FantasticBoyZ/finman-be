@@ -4,6 +4,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
+import fastifyCors from '@fastify/cors';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -11,11 +12,21 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
-  // Enable CORS using NestJS built-in support
-  app.enableCors({
-    origin: true,
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
+  // Register fastify-cors plugin
+  app.register(fastifyCors, {
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl requests, etc.)
+      if (!origin) return callback(null, true);
+      if (origin === 'http://localhost:3000') {
+        // Allow this origin
+        return callback(null, true);
+      } else {
+        // Block everything else
+        return callback(new Error("Not allowed by CORS"), false);
+      }
+    },
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   // Global error handling for unhandled promise rejections
