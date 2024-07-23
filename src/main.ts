@@ -4,6 +4,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
+import fastifyCors from '@fastify/cors';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -12,23 +13,17 @@ async function bootstrap() {
   );
 
   // Register fastify-cors plugin
-  
-const CORS_OPTIONS = {
-  origin: ['*'], // or '*' or whatever is required
-  allowedHeaders: [
-  'Access-Control-Allow-Origin',
-  'Origin',
-  'X-Requested-With',
-  'Accept',
-  'Content-Type',
-  'Authorization',
-],
-exposedHeaders: 'Authorization',
-credentials: true,
-methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
-};
-
-app.enableCors(CORS_OPTIONS)
+  app.register(fastifyCors, {
+    origin: true,
+    allowedHeaders: [
+        'Origin', 
+        'X-Requested-With', 
+        'Accept', 
+        'Content-Type', 
+        'Authorization'
+    ],
+    methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
+  });
 
   // Global error handling for unhandled promise rejections
   process.on('unhandledRejection', (reason, promise) => {
