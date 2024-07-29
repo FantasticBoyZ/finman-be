@@ -1,4 +1,4 @@
-import { asc, eq, or, sql } from 'drizzle-orm';
+import { asc, desc, eq, or, sql } from 'drizzle-orm';
 import { db } from './';
 import {
   InsertTransaction,
@@ -52,7 +52,7 @@ export async function getTransactionData(page = 1, pageSize = 10) {
             eq(categoryTable.type, 'Income')
           ),
         )
-        .orderBy(asc(transactionTable.date))
+        .orderBy(desc(transactionTable.date))
         .limit(pageSize) 
         .offset((page - 1) * pageSize),
 
